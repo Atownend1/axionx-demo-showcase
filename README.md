@@ -54,7 +54,14 @@ axionx-ai/
 ├── process_meetings.py         # Process meeting files
 ├── upload_to_cloud.py          # Upload to Qdrant
 ├── processed_meetings.json     # Processed meeting data
-└── meetings/                   # Raw meeting files (not in git)
+├── meetings/                   # Raw meeting files (not in git)
+└── frontend/                   # React frontend application
+    ├── src/
+    │   ├── components/        # Reusable components
+    │   ├── pages/             # Landing page & dashboard
+    │   └── App.jsx            # Main app
+    ├── public/                # Static assets
+    └── package.json           # Frontend dependencies
 ```
 
 ## 🚦 Usage
@@ -82,6 +89,16 @@ python api.py
 ```bash
 python api_public.py
 ```
+
+### Run Frontend (Landing Page & Dashboard)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend will be available at `http://localhost:3000`
 
 ### Make Queries
 
