@@ -105,7 +105,8 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
+    port = int(os.getenv("PORT", 8000))
     print("\n🚀 Starting AxionX PUBLIC API (Lead Magnet)...")
-    print("📍 API at: http://localhost:8000")
+    print(f"📍 API at: http://0.0.0.0:{port}")
     print("🎯 Mode: No sources, with CTAs\n")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=port)
