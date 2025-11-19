@@ -15,9 +15,8 @@ exports.handler = async (event, context) => {
   try {
     const { question } = JSON.parse(event.body);
 
-    // You'll need to deploy your Python API separately (Railway/Render)
-    // and put the URL here
-    const API_URL = process.env.BACKEND_API_URL || 'http://localhost:8000';
+    // Python API hosted on Railway
+    const API_URL = process.env.BACKEND_API_URL || 'https://web-production-dd2b1.up.railway.app';
 
     const response = await fetch(`${API_URL}/ask`, {
       method: 'POST',
