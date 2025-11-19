@@ -5,7 +5,7 @@ export default function ChatWidget({ onClose }) {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi! I'm your EPM AI assistant. Ask me anything about finance transformation, EPM implementations, or best practices. I'm trained on thousands of hours of consulting experience."
+      content: "Hi! I'm Alex from AxionX, specializing in EPM and finance transformation. What's your name, and what specific challenge are you trying to solve in your finance operations?"
     }
   ])
   const [input, setInput] = useState('')
