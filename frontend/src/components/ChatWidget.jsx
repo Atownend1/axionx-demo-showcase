@@ -30,8 +30,8 @@ export default function ChatWidget({ onClose }) {
     setLoading(true)
 
     try {
-      // Call Railway API directly (Lovable doesn't need proxy)
-      const API_URL = import.meta.env.VITE_API_URL || 'https://web-production-dd2b1.up.railway.app'
+      // Call API on custom domain (cleaner and more professional)
+      const API_URL = import.meta.env.VITE_API_URL || 'https://api.axionx.uk'
       const response = await fetch(`${API_URL}/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
