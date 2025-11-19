@@ -30,7 +30,9 @@ export default function ChatWidget({ onClose }) {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/ask', {
+      // Call Railway API directly (Lovable doesn't need proxy)
+      const API_URL = import.meta.env.VITE_API_URL || 'https://web-production-dd2b1.up.railway.app'
+      const response = await fetch(`${API_URL}/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: userMessage })
