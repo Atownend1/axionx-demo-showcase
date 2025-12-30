@@ -7,29 +7,26 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# Look for .env in parent directory since we might be running from frontend/
+env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+if os.path.exists(env_path):
+    load_dotenv(env_path)
+else:
+    load_dotenv() # Fallback to default
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://axionx.uk",
-        "https://www.axionx.uk",
-        "https://*.lovable.app",
-        "https://*.lovable.dev",
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "*"  # Remove this in production
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 anthropic_client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 qdrant_client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),
+    url=os.getenv("QDRANT_URL").strip(),
     api_key=os.getenv("QDRANT_API_KEY")
 )
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -49,19 +46,24 @@ async def ask(q: Question):
     vector = response.data[0].embedding
     
     # Find relevant meetings
-    results = qdrant_client.query_points(
-        collection_name="axionx_meetings",
-        query=vector,
-        limit=5
-    ).points
-    
-    print(f"📚 Found {len(results)} relevant meetings")
-    
-    # Build context
-    context = "\n\n---\n\n".join([
-        f"{r.payload['content']}"
-        for r in results
-    ])
+    try:
+        results = qdrant_client.query_points(
+            collection_name="axionx_meetings",
+            query=vector,
+            limit=5
+        ).points
+        
+        print(f"📚 Found {len(results)} relevant meetings")
+        
+        # Build context
+        context = "\n\n---\n\n".join([
+            f"{r.payload['content']}"
+            for r in results
+        ])
+    except Exception as e:
+        print(f"⚠️ Qdrant Error: {e}")
+        print("⚠️ Proceeding without context")
+        context = ""
     
     # PUBLIC MODE: Professional, conversational, lead generation focused
     message = anthropic_client.messages.create(
@@ -129,5 +131,5 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
     print("\n🚀 Starting AxionX PUBLIC API (Lead Magnet)...")
     print(f"📍 API at: http://0.0.0.0:{port}")
-    print("🎯 Mode: No sources, with CTAs\n")
+    print("🎯 Mode: No sources, with CTAs (CORS: ALL ORIGINS)\n")
     uvicorn.run(app, host="0.0.0.0", port=port)
