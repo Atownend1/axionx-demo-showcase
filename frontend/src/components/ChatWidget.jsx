@@ -39,7 +39,7 @@ export default function ChatWidget({ onClose }) {
       })
 
       const data = await response.json()
-      
+
       setMessages(prev => [
         ...prev,
         { role: 'assistant', content: data.answer }
@@ -50,10 +50,10 @@ export default function ChatWidget({ onClose }) {
         setTimeout(() => {
           setMessages(prev => [
             ...prev,
-            { 
-              role: 'cta', 
+            {
+              role: 'cta',
               content: data.cta.text,
-              url: data.cta.url 
+              url: data.cta.url
             }
           ])
         }, 500)
@@ -61,9 +61,9 @@ export default function ChatWidget({ onClose }) {
     } catch (error) {
       setMessages(prev => [
         ...prev,
-        { 
-          role: 'assistant', 
-          content: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment." 
+        {
+          role: 'assistant',
+          content: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment."
         }
       ])
     } finally {
@@ -82,7 +82,7 @@ export default function ChatWidget({ onClose }) {
             </div>
             <div>
               <h3 className="font-bold text-gray-900">EPM AI Assistant</h3>
-              <p className="text-sm text-gray-500">Powered by AxionX</p>
+              <p className="text-sm text-gray-500">Powered by AxionX.uk</p>
             </div>
           </div>
           <button
@@ -110,25 +110,22 @@ export default function ChatWidget({ onClose }) {
                   {message.content}
                 </a>
               ) : (
-                <div className={`flex items-start space-x-2 max-w-[80%] ${
-                  message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-                }`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    message.role === 'user' 
-                      ? 'bg-gray-200' 
-                      : 'bg-primary-100'
+                <div className={`flex items-start space-x-2 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
                   }`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.role === 'user'
+                      ? 'bg-gray-200'
+                      : 'bg-primary-100'
+                    }`}>
                     {message.role === 'user' ? (
                       <User className="h-5 w-5 text-gray-600" />
                     ) : (
                       <Bot className="h-5 w-5 text-primary-600" />
                     )}
                   </div>
-                  <div className={`px-4 py-3 rounded-2xl ${
-                    message.role === 'user'
+                  <div className={`px-4 py-3 rounded-2xl ${message.role === 'user'
                       ? 'bg-primary-600 text-white'
                       : 'bg-gray-100 text-gray-900'
-                  }`}>
+                    }`}>
                     <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   </div>
                 </div>

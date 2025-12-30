@@ -14,6 +14,7 @@ export default {
           600: '#0284c7',
           700: '#0369a1',
         },
+        border: '#e2e8f0', // slate-200
       },
     },
   },
