@@ -48,3 +48,6 @@ meetings/
 # Processed data (optional - uncomment if you want to keep this private)
 # processed_meetings.json
 
+
+# Local Netlify folder
+.netlify
